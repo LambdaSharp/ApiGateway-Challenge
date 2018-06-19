@@ -24,7 +24,6 @@ The following tools and accounts are required to complete these instructions.
   - MySql Workbench if planning to use RDS
 
 ## Level 0 - Setup
-<<<<<<< HEAD
 
 Pick a data source (AWS's RDS MySql or AWS's DynamoDB). Create a new instance.
 
@@ -199,29 +198,3 @@ Add both of these features by adding new resources in the api gateway and update
 [AWS docs about S3 static site hosting]()
 
 [AWS docs about CORS](https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-cors.html)
-=======
-- Pick a data source (RDS MySql or DynamoDB).  Start an instance!  Allocating can take time.
-    - RDS MySql helper scripts
-    - DynamoDB
-
-## Level 1 - Lambda function to choosen data source
-- Create a lambda function that will create a to do item
-
-## Level 2 - Configure the API Gateway
-- Create an API Gateway
-- Map api gateway resource to the new lambda function
-- Configure the ToDo app. Hint: Use developer tools in Chrome to show the request/response in the network tab.
-- CORS
-
-## Level 3 - Delete & Update To Do Item
-- Add support for deleting a to do list item and marking it complete. Hint: Create a new lambda functions per task.
-- Map api gateway resource to each lambda function
-
-## Level 4 - 
-- Setup Static hosting
-- api gateway security
-- Setup per user authentication for application.
-
-## Boss
-YTB
->>>>>>> 93daf3e772d9c0ba50769fa4f95c3ef3575f4ea5
