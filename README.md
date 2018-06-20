@@ -31,8 +31,10 @@ The following tools and accounts are required to complete these instructions.
 
 ## Level 0 - Setup S3 to Store To Do App Data
 
-- Setup a S3 bucket to act as a data source.
+- Setup a S3 bucket as a data source.
 - Upload the `to do` database from [src/todos.json](src/todos.json) into the S3 bucket.
+
+[AWS Reference for S3 bucket creation](https://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html)
 
 ## Level 1 - Starter Lambda Function
 
