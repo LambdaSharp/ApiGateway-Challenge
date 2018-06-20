@@ -60,7 +60,8 @@ function apiGatewayResponse({ body, statusCode = 200 }) {
     statusCode: statusCode,
     headers: {
       "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET,DELETE,POST,PUT,OPTIONS"
+      "Access-Control-Allow-Methods": "GET,DELETE,POST,PUT,OPTIONS",
+      "Access-Control-Allow-Headers": "*"
     },
     body: JSON.stringify(body)
   };
