@@ -38,7 +38,7 @@ The following tools and accounts are required to complete these instructions.
 
 Create an AWS's Lambda function that will retrieve a list of To Do items in an S3 bucket previously created.
 
-- Use either C# or [NodeJs](src/nodejs/index.js) lambda function provided in this repo to start.
+- Use either [C#](src/lambdasharp-june) or [NodeJs](src/nodejs/index.js) lambda function provided in this repo to start.
 - Create an IAM role with S3 and CloudWatch permissions. Assign it to the lambda function.
   - Create a new Role in AWS IAM
   - Choose the service that will use this role: **Lambda** . Click **Next**
