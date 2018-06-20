@@ -25,28 +25,29 @@ The following tools and accounts are required to complete these instructions.
 - [Complete Step 1 of the AWS Lambda Getting Started Guide](http://docs.aws.amazon.com/lambda/latest/dg/setup.html)
   - Setup an AWS account
   - [Setup the AWS CLI](https://docs.aws.amazon.com/lambda/latest/dg/setup-awscli.html)
-- Both NodeJS or .NET Core 2+ is required
+- NodeJS or .NET Core 2+ is required
   - <https://nodejs.org/en/>
   - <https://www.microsoft.com/net/learn/get-started/windows>
 
 ## Level 0 - Setup S3 to Store To Do App Data
 
 - Setup a S3 bucket to act as a data source.
-- Upload the `to do` database from [src/todos.json](src/todos.json) in the S3 bucket.
+- Upload the `to do` database from [src/todos.json](src/todos.json) into the S3 bucket.
 
 ## Level 1 - Starter Lambda Function
 
-Create an AWS's Lambda function that will retrieve a list of To Do items in an S3 bucket previously created.
+Create an AWS's Lambda function that will retrieve a list of To Do items in the S3 bucket previously created.
 
 - Use either [C#](src/lambdasharp-june) or [NodeJs](src/nodejs/index.js) lambda function provided in this repo to start.
 - Create an IAM role with S3 and CloudWatch permissions. Assign it to the lambda function.
   - Create a new Role in AWS IAM
   - Choose the service that will use this role: **Lambda** . Click **Next**
   - Select **AmazonS3FullAccess** and **CloudWatchLogsFullAccess** . Click **Next**.
-  - Give it a name and appy to the lambda function created.
+  - Give it a name and apply to the lambda function created.
 - Deploy the lambda function!
 
 [NodeJS AWS SDK](https://aws.amazon.com/sdk-for-node-js/)
+
 [C# AWS SDK](https://docs.aws.amazon.com/AmazonS3/latest/dev/UploadObjSingleOpNET.html)
 
 ## Level 2 - Create an API Gateway
@@ -65,9 +66,9 @@ Create an AWS's Lambda function that will retrieve a list of To Do items in an S
 
   Be sure to `Deploy` the Api! Action drop down, `Deploy Api` on every change.
 
-  Chrome console will throw an error about if origin is not set (also see level 1 javascript hint): `Access-Control-Allow-Origin` or ``
+  Chrome console will throw an error about origin if not set (also see level 1 javascript hint): `Access-Control-Allow-Origin`
 
-  Check the CloudWatch for Lambda log events.
+  Check CloudWatch for Lambda log events.
 
 </details>
 
@@ -86,24 +87,28 @@ The To Do app also supports the following functions:
 
     Be sure to `Deploy` the Api! Action drop down, `Deploy Api` on every change.
 
-    Check the network tab in chrome for the requests!
+    Check the network tab in chrome for the `To Do` app xhr requests!
 
     CORS issues? Did you add OPTIONS method that mapped to the lambda function?
+    
+    Check CloudWatch logs.
 
 </details>
 
 ## Level 4 - Security
 
 - Host the To Do app code on AWS's S3 service. The repo is located here: https://github.com/skittleson/ToDoApp
-- Configure the Api to only allow requests from only that S3 static site using CORS.
+- Configure the Api to allow requests from ONLY that S3 static site using CORS.
 
 [AWS docs about S3 static site hosting](https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html)
+
 [AWS docs about CORS](https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-cors.html)
 
 ## Boss Challenge
+
 ![boss](http://images2.fanpop.com/image/photos/10400000/Bowser-nintendo-villains-10403203-500-413.jpg)
 
-- Secure the `To Do` app using the API Gateway's **API Key** and **Usage Plans**.  Add an API key to the `To Do` settings
-- Remove all "Access-Control-Allow" in code and only use API Gateway.
+- Secure the `To Do` app using the API Gateway's **API Key** and **Usage Plans**.  Add an API key in the settings of the `To Do` app.
+- Remove all "Access-Control-Allow" headers in code and only use API Gateway for `OPTIONS` security.
 
 [AWS Reference for api key setup](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-setup-api-key-with-console.html)
