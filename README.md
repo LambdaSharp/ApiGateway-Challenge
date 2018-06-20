@@ -101,4 +101,4 @@ The To Do app also supports the following functions:
 
 Secure the `To Do` app using the API Gateway's **API Key** and **Usage Plans**.  Add an API key to the `To Do` settings
 
-
+[AWS Reference for api key setup](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-setup-api-key-with-console.html)
