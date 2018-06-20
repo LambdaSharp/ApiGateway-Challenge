@@ -34,12 +34,16 @@ The following tools and accounts are required to complete these instructions.
 - Setup a S3 bucket to act as a data source.
 - Upload the `to do` database from [src/todos.json](src/todos.json) in the S3 bucket.
 
-## Level 1 - Bootstrap the Lambda Function
+## Level 1 - Starter Lambda Function
 
 Create an AWS's Lambda function that will retrieve a list of To Do items in an S3 bucket previously created.
 
 - Use either C# or [NodeJs](src/nodejs/index.js) lambda function provided in this repo to start.
 - Create an IAM role with S3 and CloudWatch permissions. Assign it to the lambda function.
+ - Create a new Role in AWS IAM
+ - Choose the service that will use this role: **Lambda** . Click **Next**
+ - Select **AmazonS3FullAccess** and **CloudWatchLogsFullAccess** . Click **Next**.
+ - Give it a name and appy to the lambda function created.
 - Deploy the lambda function!
 
 [NodeJS AWS SDK](https://aws.amazon.com/sdk-for-node-js/)
