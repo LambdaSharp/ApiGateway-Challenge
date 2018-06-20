@@ -32,13 +32,13 @@ The following tools and accounts are required to complete these instructions.
 ## Level 0 - Setup S3 to Store To Do App Data
 
 - Setup a S3 bucket to act as a data source.
-- Upload the `to do` database from [here](todos.json) in the S3 bucket.
+- Upload the `to do` database from [src/todos.json](src/todos.json) in the S3 bucket.
 
 ## Level 1 - Bootstrap the Lambda Function
 
 Create an AWS's Lambda function that will retrieve a list of To Do items in an S3 bucket previously created.
 
-- Use either C# or NodeJs template provided in this repo to start.
+- Use either C# or [NodeJs](src/nodejs/index.js) lambda function provided in this repo to start.
 - Create an IAM role with S3 and CloudWatch permissions. Assign it to the lambda function.
 - Deploy the lambda function!
 
