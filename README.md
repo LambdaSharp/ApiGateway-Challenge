@@ -103,6 +103,7 @@ The To Do app also supports the following functions:
 ## Boss Challenge
 ![boss](http://images2.fanpop.com/image/photos/10400000/Bowser-nintendo-villains-10403203-500-413.jpg)
 
-Secure the `To Do` app using the API Gateway's **API Key** and **Usage Plans**.  Add an API key to the `To Do` settings
+- Secure the `To Do` app using the API Gateway's **API Key** and **Usage Plans**.  Add an API key to the `To Do` settings
+- Remove all "Access-Control-Allow" in code and only use API Gateway.
 
 [AWS Reference for api key setup](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-setup-api-key-with-console.html)
