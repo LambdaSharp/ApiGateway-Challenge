@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "note": "Buy milk",
+    "completed": false
+  },
+  {
+    "id": 2,
+    "note": "Pickup dry cleaning",
+    "completed": false
+  },
+  {
+    "id": 3,
+    "note": "Pay bills",
+    "completed": false
+  },
+  {
+    "id": 4,
+    "note": "Schedule tee time",
+    "completed": true
+  }
+]

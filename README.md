@@ -10,6 +10,14 @@ The architecture should look like this:
 
 ![to do app flow](flow.png)
 
+Example record
+```json
+{
+    "id": 1,
+    "note": "Buy milk",
+    "completed": false
+}
+```
 
 ## Pre-requisites
 
@@ -23,134 +31,28 @@ The following tools and accounts are required to complete these instructions.
   - <https://www.microsoft.com/net/learn/get-started/windows>
   - MySql Workbench if planning to use RDS
 
-## Level 0 - Setup
+## Level 0 - Setup S3 to Store To Do App Data
 
-Pick a data source (AWS's RDS MySql or AWS's DynamoDB). Create a new instance.
+- Setup a S3 bucket to act as a data source. 
+- Upload the to do database from [here](todos.json) 
 
-<details>
-    <summary>RDS MySql</summary>
+## Level 1 - Bootstrap the Lambda Function
 
-    This assumes you know how to connect to a standard MySql database using a workbench. **Allocating can take some time.**
+Create an AWS's Lambda function that will retrieve a list of To Do items in an S3 bucket previously created.
 
-    - Select a **Dev/Test** instance.
+- Use either C# or NodeJs template provided in this repo to start.
+- Create an IAM role with S3 and CloudWatch permissions. Assign it to the lambda function.
+- Deploy the lambda function!
 
-Next Page
-
-    - DB instance class: db.t2.micro
-    - DB instance identifier: toDoDb
-    - Master username: dbadmin
-    - Master password: *anything you can remember*
-
-Next Page
-
-    - Public accessibility: yes
-    - Database name: todo
-
-Launch DB Instance (this will take some time. move to level 1)
-
-Once you have access, use the following sql script to create the table.
-
-```sql
-CREATE TABLE todo.items (
-  id int(11) NOT NULL AUTO_INCREMENT,
-  note text DEFAULT NULL,
-  completed bit(1) NOT NULL DEFAULT b'0',
-  PRIMARY KEY (id)
-)
-ENGINE = INNODB
-AUTO_INCREMENT = 1
-CHARACTER SET latin1
-COLLATE latin1_swedish_ci;
-```
-
-</details>
-
-<details>
-  <summary>DynamoDB</summary>
-
-    Create a new table. Partion by `id` as a number.  
-
-    One item will look like this:
-
-```json
-{
-    "id": 1,
-    "note": "Buy milk",
-    "completed": false
-}
-```
-
-[AWS Reference for DynamoDB NodeJS](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.NodeJs.03.html)
-https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html
-
-</details>
-
-## Level 1 - Lambda function from choosen data source
-
-Create an AWS's Lambda function that will retrieve a list of To Do items in either data store. It can be C#, JavaScript, Python, or any language that is supported.
-[AWS RDS Reference](https://docs.aws.amazon.com/lambda/latest/dg/vpc-rds-create-lambda-function.html)
-[AWS DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.NodeJs.03.html)
-
-### Expected Response from Lambda Function on Http Get
-```json
-[
-  {
-    "id": 1,
-    "note": "Buy milk",
-    "completed": false
-  },
-  {
-    "id": 2,
-    "note": "Pickup dry cleaning",
-    "completed": false
-  },
-  {
-    "id": 3,
-    "note": "Pay bills",
-    "completed": false
-  },
-  {
-    "id": 4,
-    "note": "Schedule tee time",
-    "completed": true
-}
-```
-
-<details>
-  <summary>Hints:</summary>
-
-    If using RDS, check the security group of the database configure.
-
-Starter lambda function
-```javascript
-exports.handler = (event, context, callback) => {
-  console.log(JSON.stringify(event));
-  try {
-    callback(null, buildResponse([]));
-  } catch(e){
-    callback(null, buildResponse("Failed"));
-  }
-};
-
-function buildResponse(body){
-   return {
-        statusCode: 200,
-        headers: {
-            "Access-Control-Allow-Origin" : "*"
-        },
-        body: JSON.stringify(body)
-    };
-}
-
-```
-
-</details>
+###References
+https://aws.amazon.com/sdk-for-node-js/
 
 ## Level 2 - Create an API Gateway
 
 - Create an API Gateway.
 - Create a new resource `todo`.
-- Connect the new resource to the lambda function created from level 1.  Be sure to use `Use Lambda Proxy integration`.
+- Create a new `GET` method to the lambda function created from level 1.  Be sure to use `Use Lambda Proxy integration`.
+- Create a new `OPTIONS` method to the lambda function created from level 1.  Be sure to use `Use Lambda Proxy integration`.
 - Deploy API and configure the To Do App. Upon saving, the app will attempt to connect for a list of items. 
 ![to do app](ConfigureToDoApp.PNG)
 
@@ -161,12 +63,9 @@ function buildResponse(body){
 
     Be sure to `Deploy` the Api! Action drop down, `Deploy Api` on every change.
 
-   Chrome console will throw an error about if origin is not set (also see level 1 javascript hint): `Access-Control-Allow-Origin`
-To understand and resolve this security issue it: https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-cors.html
+   Chrome console will throw an error about if origin is not set (also see level 1 javascript hint): `Access-Control-Allow-Origin` or ``
 
-
-
-Check the CloudWatch for Lambda log events.
+   Check the CloudWatch for Lambda log events.
 
 </details>
 
@@ -176,11 +75,9 @@ Check the CloudWatch for Lambda log events.
 ## Level 3 - Create, Delete & Update a To Do Item
 
 The To Do app also supports the following functions:
-- On resource action method `Post`, create a to do item to data store.
-- On resource action method `Delete` resource, delete a to do item to data store.
-- On resource action method `Put` resource, update a to do item's `completed` boolean value to data store.
-
-Add both of these features by adding new resources in the api gateway and update the lambda function (or create new ones to handle logic).
+- On resource action method `POST`, create a to do item to data store. Return a single to do json as the api response.
+- On resource action method `DELETE` resource, delete a to do item to data store. Return nothing from api response.
+- On resource action method `PUT` resource, update a to do item. Return item from api response.
 
 <details>
   <summary>Hints:</summary>
@@ -189,12 +86,13 @@ Add both of these features by adding new resources in the api gateway and update
 
     Check the network tab in chrome for the requests!
 
+    CORS issues? Did you add OPTIONS method that mapped to the lambda function?
+
 </details>
 
 ## Level 4 - Security
-- Host the To Do app code on AWS's S3 service.
+- Host the To Do app code on AWS's S3 service. The repo is located here: https://github.com/skittleson/ToDoApp
 - Configure the Api to only allow requests from only that S3 static site using CORS.
 
-[AWS docs about S3 static site hosting]()
-
+[AWS docs about S3 static site hosting](https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html)
 [AWS docs about CORS](https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-cors.html)
