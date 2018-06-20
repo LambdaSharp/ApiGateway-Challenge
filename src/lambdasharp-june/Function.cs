@@ -58,6 +58,8 @@ namespace lambdasharp_june
 
             // Determine which method to execute
             switch(evnt.HttpMethod) {
+                case "OPTIONS":
+                    return GetAPIGatewayResponse(HttpStatusCode.OK, "");
                 case "GET":
                     return GetAPIGatewayResponse(HttpStatusCode.OK, todos);
                 case "POST":
