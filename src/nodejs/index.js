@@ -22,11 +22,11 @@ exports.handler = async (event, context, callback) => {
     } else if (event.httpMethod == "GET") {
       result = await getDataFromS3();
     } else if (event.httpMethod == "POST") {
-      //result = 'TODO S3 POST';
+      result = 'TODO S3 POST';
     } else if (event.httpMethod == "DELETE") {
-      //result = "TODO S3 DELETE";
+      result = "TODO S3 DELETE";
     } else if (event.httpMethod == "PUT") {
-      //result = "TODO S3 PUT";
+      result = "TODO S3 PUT";
     }
     callback(null, apiGatewayResponse({ body: result }));
   } catch (e) {
