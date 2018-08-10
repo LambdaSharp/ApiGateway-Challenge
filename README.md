@@ -1,4 +1,4 @@
-# June2018-ApiGateway
+# API Gateway Challenge
 
 In this challenge we're going to learn how to setup an API Gateway, AWS Lambda function, and AWS S3 data source to persist data from an existing RESTful application.
 
